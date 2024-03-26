@@ -1,0 +1,4 @@
+# this is the name of my venv
+/bot-env
+.env
+__pycache__

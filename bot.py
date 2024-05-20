@@ -47,7 +47,33 @@ async def book(interaction: discord.Interaction, book: str):
     
     dict = await goodscrape.scrape(book)
 
-    await interaction.followup.send(dict)
+    embed = discord.Embed(title=dict.get("title"),
+                      url=dict.get("link"),
+                      colour=0x0ff5b0)
+
+    embed.set_author(name=interaction.user,
+                    icon_url=interaction.user.avatar.url)
+
+    embed.add_field(name="Author",
+                    value=dict.get("author"),
+                    inline=True)
+    embed.add_field(name="Rating",
+                    value=dict.get("rating") + "⭐",
+                    inline=True)
+    embed.add_field(name="Page Count",
+                    value=dict.get("page_count"),
+                    inline=True)
+    # embed.add_field(name="Rating Count",
+    #                 value=dict.get("rating_count"),
+    #                 inline=True)
+    embed.add_field(name="Description",
+                    value=dict.get("description"),
+                    inline=False)
+
+    embed.set_thumbnail(url="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1366212852i/113436.jpg")
+
+    await interaction.followup.send(embed=embed)
+    # await interaction.response.send_message(embed=embed)
 
 
 bot.run(BOT_TOKEN)

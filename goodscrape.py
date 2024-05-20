@@ -109,15 +109,22 @@ async def scrape(book_search="Wizard of Earthsea"):
         print("removing unneccessary starting text about alt cover")
         description = description.split('\n', 1)[1]
         description = description.strip()
+    if len(description) > 1024:
+        print(len(description))
+        description = description[:1021] + "..."
+        print(len(description))
     book_info["description"] = description
 
     # rating_count = driver.find_element(By.CLASS_NAME, "RatingStatistics__meta").find_element(By.TAG_NAME, "span").text
     # book_info["rating_count"] = rating_count
 
+    book_image = driver.find_element(By.CLASS_NAME, "ResponsiveImage").get_attribute("src")
+    book_info["book_image"] = book_image
+
 
     print(book_info)
 
-    if len(book_info) != 6:
+    if len(book_info) != 7:
         raise Exception("Error: incorrect number of info found on book")
 
     return book_info

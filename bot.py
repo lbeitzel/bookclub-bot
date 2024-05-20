@@ -53,7 +53,7 @@ async def book(interaction: discord.Interaction, book: str):
 
     embed.set_author(name=interaction.user,
                     icon_url=interaction.user.avatar.url)
-
+    
     embed.add_field(name="Author",
                     value=dict.get("author"),
                     inline=True)
@@ -69,8 +69,8 @@ async def book(interaction: discord.Interaction, book: str):
     embed.add_field(name="Description",
                     value=dict.get("description"),
                     inline=False)
-
-    embed.set_thumbnail(url="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1366212852i/113436.jpg")
+    
+    embed.set_thumbnail(url=dict.get("book_image"))
 
     await interaction.followup.send(embed=embed)
     # await interaction.response.send_message(embed=embed)

@@ -7,23 +7,44 @@ import time
 
 
 async def scrape(book_search="Wizard of Earthsea"):
+
+    # timer start
+    start = time.time()
+
+    # current speed down to ~4.5 seconds (may be floor due to latency with web requests)
     options = webdriver.ChromeOptions()
-    # options.add_argument("--headless=new")
+    options.add_argument("--headless=new")
+    options.add_argument('user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36')
+    
+    options.add_argument("--disable-logging")
+    options.add_argument("--log-level=3")
     options.add_argument("--disable-gpu")
-    options.add_argument("--disable-extensions")
-    # options.add_argument("--headless=chrome")
-    options.add_argument('--ignore-certificate-errors')
-    options.add_argument('--ignore-certificate-errors-spki-list')
-    options.add_argument('--ignore-ssl-errors')
-    options.add_argument('log-level=3')
-    options.add_argument('--window-size=1920,1080')
-    # options.add_argument("--window-size=2560,1440")
-    options.add_argument('--no-sandbox')
-    options.add_argument('--disable-gpu')
-    options.add_argument("--no-proxy-server")
-    options.add_argument("--proxy-server='direct://'")
-    options.add_argument("--proxy-bypass-list=*")
-    # options.add_argument('user-agent="MQQBrowser/26 Mozilla/5.0 (Linux; U; Android 2.3.7; zh-cn; MB200 Build/GRJ22; CyanogenMod-7) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1"')
+    options.add_argument("--disk-cache-dir=/tmp/chrome_cache")
+    options.add_argument("--disk-cache-size=4096000")
+    options.add_argument('--disable-dev-shm-usage')
+
+
+    prefs = {
+        "profile.managed_default_content_settings.images": 2,  # Disable images
+        "profile.default_content_setting_values.notifications": 2,  # Disable pop-ups
+        "profile.managed_default_content_settings.stylesheets": 2,  # Disable CSS
+        "profile.managed_default_content_settings.plugins": 2,  # Disable plugins
+    }
+    options.add_experimental_option("prefs", prefs)
+
+    # options.add_argument("--disable-extensions")
+    # # options.add_argument("--headless=chrome")
+    # options.add_argument('--ignore-certificate-errors')
+    # options.add_argument('--ignore-certificate-errors-spki-list')
+    # options.add_argument('--ignore-ssl-errors')
+    # options.add_argument('--window-size=1920,1080')
+    # # options.add_argument("--window-size=2560,1440")
+    # options.add_argument('--no-sandbox')
+    # options.add_argument("--no-proxy-server")
+    # options.add_argument("--proxy-server='direct://'")
+    # options.add_argument("--proxy-bypass-list=*")
+    # options.add_argument("--enable-unsafe-swiftshader")
+    
     driver = webdriver.Chrome(options)
 
     
@@ -126,5 +147,13 @@ async def scrape(book_search="Wizard of Earthsea"):
 
     if len(book_info) != 7:
         raise Exception("Error: incorrect number of info found on book")
+
+
+    # timer end
+    end = time.time()
+    length = end - start
+
+    print("It took", length, "seconds!")
+
 
     return book_info

@@ -6,7 +6,7 @@ discord bot that utilizes a modified version of my goodreads-scraper
 run code:
 > python bot.py
 
-enter guild and text channel that has contains the discord bot 
+enter guild and text channel that contains the discord bot 
 
 in text channel, run bot command
 
